@@ -1,0 +1,139 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
+
+/**
+ * @author Bolo
+ *
+ */
+public class MenuBar extends JMenuBar {
+    private JMenu myFileMenu;
+    private JMenu myOptionsMenu;
+    private JMenu myHelpMenu;
+    
+    private JMenu lineWidthSubmenu;
+    private JMenu lineColorSubmenu;
+    
+    private JMenuItem openMenuItem;
+    private JMenuItem saveMenuItem;
+    private JMenuItem printMenuItem;
+    private JMenuItem exitMenuItem;
+    private JMenuItem helpMenuItem;
+    private JMenuItem aboutMenuItem;
+    
+    private JRadioButtonMenuItem radio1;
+    private JRadioButtonMenuItem radio3;
+    private JRadioButtonMenuItem radio5;
+    
+    private ButtonGroup lineWidthGroup;
+    
+    private StayOpenCheckBoxMenuItem redBox;
+    private StayOpenCheckBoxMenuItem greenBox;
+    private StayOpenCheckBoxMenuItem blueBox;
+    
+    public MenuBar(final PaintPanel aPanel, final Action[] a) {
+        super();
+        myFileMenu = new JMenu("File");
+        myOptionsMenu = new JMenu("Options");
+        myHelpMenu = new JMenu("Help");
+        
+        myFileMenu.setMnemonic(KeyEvent.VK_F);
+        myOptionsMenu.setMnemonic(KeyEvent.VK_O);
+        myHelpMenu.setMnemonic(KeyEvent.VK_H);
+
+        openMenuItem = new JMenuItem("Open");
+        saveMenuItem = new JMenuItem("Save");
+        printMenuItem = new JMenuItem("Print");
+        exitMenuItem = new JMenuItem("Exit");
+        
+        saveMenuItem.setEnabled(false);
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));
+        exitMenuItem.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent anEvent) {
+                    System.exit(0);
+                }
+            });
+        
+        myFileMenu.add(new AbstractAction("New")            
+            {
+                {
+                    putValue("panel", aPanel);
+                }
+                
+                @Override
+                public void actionPerformed(ActionEvent anEvent) {
+                    PaintPanel p = (PaintPanel) getValue("panel");
+                    p.setBackground(Color.WHITE);
+                    radio1.setSelected(true);
+                    redBox.setSelected(false);
+                    greenBox.setSelected(false);
+                    blueBox.setSelected(false);
+                }
+            });
+        myFileMenu.add(openMenuItem);
+        myFileMenu.add(saveMenuItem);
+        myFileMenu.add(printMenuItem);
+        myFileMenu.addSeparator();
+        myFileMenu.add(exitMenuItem);
+        add(myFileMenu);
+        
+        lineWidthSubmenu = new JMenu("Line Width");
+        radio1 = new JRadioButtonMenuItem(a[0]);
+        radio3 = new JRadioButtonMenuItem(a[1]);
+        radio5 = new JRadioButtonMenuItem(a[2]);
+        
+        radio1.setText("Size: 1");
+        radio1.setSelected(true);
+        radio3.setText("Size: 3");
+        radio5.setText("Size: 5");
+        
+        lineWidthGroup = new ButtonGroup();
+        lineWidthGroup.add(radio1);
+        lineWidthGroup.add(radio3);
+        lineWidthGroup.add(radio5);
+        lineWidthSubmenu.add(radio1);
+        lineWidthSubmenu.add(radio3);
+        lineWidthSubmenu.add(radio5);
+        
+        lineColorSubmenu = new JMenu("Line Color");
+        redBox = new StayOpenCheckBoxMenuItem(a[3]);
+        greenBox = new StayOpenCheckBoxMenuItem(a[4]);
+        blueBox = new StayOpenCheckBoxMenuItem(a[5]);
+        
+        redBox.setText("R");
+        greenBox.setText("G");
+        blueBox.setText("B");
+        lineColorSubmenu.add(redBox);
+        lineColorSubmenu.add(greenBox);
+        lineColorSubmenu.add(blueBox);
+        
+        myOptionsMenu.add(lineWidthSubmenu);
+        myOptionsMenu.addSeparator();
+        myOptionsMenu.add(lineColorSubmenu);
+        add(myOptionsMenu);
+        
+        helpMenuItem = new JMenuItem("Help");
+        aboutMenuItem = new JMenuItem("About");
+        
+        myHelpMenu.add(helpMenuItem);
+        myHelpMenu.add(aboutMenuItem);
+        add(myHelpMenu);
+    }
+}

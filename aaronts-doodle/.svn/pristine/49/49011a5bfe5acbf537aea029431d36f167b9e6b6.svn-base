@@ -1,0 +1,31 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+
+public class StrokeRedAction extends AbstractAction {
+    public StrokeRedAction(PaintPanel aPanel) {
+        putValue("panel", aPanel);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent anEvent) {
+        PaintPanel p = (PaintPanel) getValue("panel");
+        
+        AbstractButton redBox = (AbstractButton) anEvent.getSource();
+        boolean selected = redBox.getModel().isSelected();
+        
+        if (selected) {
+            p.setMyR(255);
+        } else {
+            p.setMyR(0);
+        }
+    }
+
+}

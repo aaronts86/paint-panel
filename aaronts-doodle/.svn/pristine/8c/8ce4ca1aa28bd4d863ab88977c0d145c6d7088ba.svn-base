@@ -1,0 +1,33 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.GeneralPath;
+
+public final class PaintStore {
+    private GeneralPath myPath;
+    private BasicStroke myStroke;
+    private Color myColor;
+    
+    public PaintStore(GeneralPath aPath, BasicStroke aStroke, Color aColor) {
+        myPath = aPath;
+        myStroke = aStroke;
+        myColor = aColor;
+    }
+
+    public GeneralPath getMyPath() {
+        return myPath;
+    }
+
+    public BasicStroke getMyStroke() {
+        return myStroke;
+    }
+
+    public Color getMyColor() {
+        return myColor;
+    }
+}

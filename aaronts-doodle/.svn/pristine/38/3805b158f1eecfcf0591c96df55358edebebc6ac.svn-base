@@ -1,0 +1,55 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.event.ItemListener;
+
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+/**
+ * @author Bolo
+ *
+ */
+
+public class ToolBar extends JToolBar {
+    private JToggleButton red;
+    
+    private JToggleButton blue;
+    
+    private JToggleButton yellow;
+    
+    private JToggleButton white;
+    
+    private ButtonGroup toggleGroup;
+    
+    public ToolBar(Action[] a) {
+        super("Colors");
+        
+        red = new JToggleButton(a[0]);
+        blue = new JToggleButton(a[1]);
+        yellow = new JToggleButton(a[2]);
+        white = new JToggleButton(a[3]);
+        
+        red.setToolTipText("Red");
+        blue.setToolTipText("Blue");
+        yellow.setToolTipText("Yellow");
+        white.setToolTipText("White");
+        
+        toggleGroup = new ButtonGroup();
+        toggleGroup.add(red);
+        toggleGroup.add(blue);
+        toggleGroup.add(yellow);
+        toggleGroup.add(white);
+        
+        add(red);
+        add(blue);
+        add(yellow);
+        add(white);
+    }
+}

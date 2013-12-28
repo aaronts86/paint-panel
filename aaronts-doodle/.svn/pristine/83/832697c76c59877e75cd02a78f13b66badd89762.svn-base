@@ -1,0 +1,43 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+
+/**
+ * The <code>PanelWhiteAction</code> class is an action outer class that sets the background
+ * of the given panel to white.
+ *
+ * @author Aaron Schraufnagel
+ * @version Autumn 2013
+ * @custom.inv None
+ */
+@SuppressWarnings("serial")
+public class PanelWhiteAction extends AbstractAction {
+    /**
+     * The values and the panel to have its background color changed to white
+     * are constructed.
+     * @param aPanel The panel to have its background changed to white
+     * @custom.post The background of the panel will be changed to white
+     */
+    public PanelWhiteAction(final PaintPanel aPanel) {
+        putValue(Action.SMALL_ICON, new ImageIcon("white-ball.jpg"));
+        putValue("panel", aPanel);
+        putValue(Action.MNEMONIC_KEY, (int) 'W');
+        putValue(Action.SELECTED_KEY, true);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent anEvent) {
+        final PaintPanel p = (PaintPanel) getValue("panel");
+        p.setBackground(Color.WHITE);
+        putValue(Action.SELECTED_KEY, true);
+    }
+}

@@ -1,0 +1,179 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Stroke;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JToggleButton;
+
+/**
+ * The JPanel upon which the text will be painted.
+ * HW: Another Class of 3 subcomponents, path, stroke and color
+ * Instead of drawing general path and storing that, will store 
+ * new class that has all 3 components.
+ * @author Alan Fowler
+ * @version Autumn 2013
+ */
+@SuppressWarnings("serial")
+public class PaintPanel extends JPanel {
+  
+    /** A ToolKit. */
+    private static final Toolkit KIT = Toolkit.getDefaultToolkit();
+    
+    /** The Dimension of the screen. */
+    private static final Dimension SCREEN_SIZE = KIT.getScreenSize();
+    
+    /** The width of the screen. */
+    private static final int SCREEN_WIDTH = SCREEN_SIZE.width/2;
+    
+    /** The height of the screen. */
+    private static final int SCREEN_HEIGHT = SCREEN_SIZE.height/2;
+    
+    /** The default size for this JPanel. */
+    private static final Dimension DEFAULT_SIZE = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    private Point myFromPoint;
+    private Point myToPoint;
+    private MouseDoodleAdapter myAdapter;    
+    private GeneralPath myPath;
+    private List<PaintStore> myDrawing;
+    private BasicStroke myStroke;
+    private int myR;
+    private int myG;
+    private int myB;
+    
+  /**
+   * Construct this JPanel.
+   * 
+   */
+    public PaintPanel() {
+        super();
+        setPreferredSize(DEFAULT_SIZE);
+        setBackground(Color.WHITE);
+        myAdapter = new MouseDoodleAdapter();
+        addMouseListener(myAdapter);
+        addMouseMotionListener(myAdapter);
+        myPath = new GeneralPath();
+        myDrawing = new ArrayList<>();
+        myStroke = new BasicStroke(1);
+    }
+
+    @Override
+    public void paintComponent(final Graphics aGraphics) {
+        super.paintComponent(aGraphics);
+        
+        Graphics2D g2d = (Graphics2D) aGraphics;
+        
+        if (myFromPoint != null) {
+            g2d.setStroke(myStroke);
+            g2d.setColor(new Color(myR, myG, myB));
+            g2d.draw(myPath);
+            for (PaintStore p: myDrawing) {
+                g2d.setStroke(p.getMyStroke());
+                g2d.setColor(p.getMyColor());
+                GeneralPath savePath = p.getMyPath();
+                g2d.draw(savePath);
+            }
+        }
+    }
+    
+    private class MouseDoodleAdapter extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent anEvent) {
+            myFromPoint = anEvent.getPoint();
+            myToPoint = anEvent.getPoint();
+        }
+        
+        @Override
+        public void mouseDragged(MouseEvent anEvent) {
+            myToPoint = anEvent.getPoint();
+            myPath.append(new Line2D.Double(myFromPoint, myToPoint), true);
+            myFromPoint.setLocation(myToPoint);
+            repaint();
+        }
+        
+        @Override
+        public void mouseReleased(MouseEvent anEvent) {
+            GeneralPath copyPath = new GeneralPath(myPath);
+            BasicStroke copyStroke = myStroke;
+            Color copyColor = new Color(myR, myG, myB);
+            myDrawing.add(new PaintStore(copyPath, copyStroke, copyColor));
+            myPath.reset();
+        }
+    }
+    
+    public class StrokeItemAction extends AbstractAction {
+        public StrokeItemAction(final BasicStroke aStroke) {
+            putValue("stroke", aStroke);
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent anEvent) {
+            final BasicStroke s = (BasicStroke) getValue("stroke");
+            myStroke = s;
+        }
+    }
+    
+    public List<PaintStore> getMyDrawing() {
+        return myDrawing;
+    }
+
+    public void setMyDrawing(List<PaintStore> aDrawing) {
+        this.myDrawing = aDrawing;
+    }
+
+    public BasicStroke getMyStroke() {
+        return myStroke;
+    }
+    
+    public void setMyStroke(BasicStroke aStroke) {
+        myStroke = aStroke;
+    }
+    
+    public int getMyR() {
+        return myR;
+    }
+    
+    public void setMyR(int aR) {
+        this.myR = aR;
+    }
+    
+    public int getMyG() {
+        return myG;
+    }
+    
+    public void setMyG(int aG) {
+        this.myG = aG;
+    }
+    
+    public int getMyB() {
+        return myB;
+    }
+    
+    public void setMyB(int aB) {
+        this.myB = aB;
+    }
+}

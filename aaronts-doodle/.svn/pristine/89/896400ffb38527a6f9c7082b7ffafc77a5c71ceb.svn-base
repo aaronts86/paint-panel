@@ -1,0 +1,48 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
+
+/**
+ * @author Bolo
+ *
+ */
+public class PopupMenu extends JPopupMenu {
+    
+    private JMenuItem red;
+    
+    private JMenuItem blue;
+    
+    private JMenuItem yellow;
+    
+    private JMenuItem white;
+    
+    public PopupMenu(Action[] a) {
+        red = new JMenuItem(a[0]);
+        blue = new JMenuItem(a[1]);
+        yellow = new JMenuItem(a[2]);
+        white = new JMenuItem(a[3]);
+        
+        red.setText("red");
+        blue.setText("blue");
+        yellow.setText("yellow");
+        white.setText("white");
+        
+        red.setToolTipText("red");
+        blue.setToolTipText("blue");
+        yellow.setToolTipText("yellow");
+        white.setToolTipText("white");
+        
+        add(red);
+        add(blue);
+        add(yellow);
+        add(white);
+    }
+}

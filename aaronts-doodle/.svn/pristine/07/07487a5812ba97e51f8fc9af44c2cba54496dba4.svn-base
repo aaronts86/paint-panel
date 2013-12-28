@@ -1,0 +1,36 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.EventQueue;
+
+/**
+ * The <code>DoodleMain</code> class holds the main method to run the DoodleGUI.
+ * Add custom.post and custom.inv everywhere
+ * new resets everything to fresh start
+ * @author Aaron Schraufnagel
+ * @version Autumn 2013
+ */
+public final class DoodleMain {
+    /**
+     * Private constructor that inhibits the <code>DoodleMain</code> class from being
+     * instantiated.
+     */
+    private DoodleMain() {
+        throw new IllegalStateException("DoodleMain class cannot be instantiated");
+    }
+
+    /**
+     * @param aRgs the arguments for the main method of array type String
+     */
+    public static void main(String[] aRgs) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new DoodleGUI();
+            }
+        });
+    }
+}

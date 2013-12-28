@@ -1,0 +1,87 @@
+/**
+ * Assignment 7
+ * Autumn 2013, TCSS 305B
+ */
+package seven.progpracticum;
+
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Toolkit;
+
+import javax.swing.Action;
+import javax.swing.JFrame;
+
+public class DoodleGUI {
+    /** 
+     * represents a frame.
+     */
+    private final JFrame myFrame;
+
+    /**
+     * represents a top-level menu.
+     */
+    private final MenuBar myMenuBar;
+    
+    /** 
+     * represents a toolbar.
+     */
+    private final ToolBar myToolBar;
+    
+    private final PopupMenu myPopupMenu;
+    
+    /**
+     * represents a panel.
+     */
+    private final PaintPanel myPanel;
+
+    private Action[] myColorActions;
+    private Action[] myStrokeActions;
+    
+    /**
+     * Construct the GUI.
+     */
+    public DoodleGUI() {
+        myFrame = new JFrame("Aaron's Amazing Doodle Machine");
+        
+        myPanel = new PaintPanel();
+
+        setupColorActions();
+        
+        myToolBar = new ToolBar(myColorActions);
+        myPopupMenu = new PopupMenu(myColorActions);
+        
+        setupStrokeActions();
+        
+        myMenuBar = new MenuBar(myPanel, myStrokeActions);
+        
+        myFrame.setJMenuBar(myMenuBar);
+
+        myFrame.add(myToolBar, BorderLayout.SOUTH);
+        myFrame.add(myPanel, BorderLayout.CENTER);
+        
+        myPanel.setComponentPopupMenu(myPopupMenu);
+        myFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("blue-ball.gif"));
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.pack();
+        myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true);
+    }
+    
+    private void setupColorActions() {
+    	myColorActions = new Action[4];
+    	myColorActions[0] = new PanelRedAction(myPanel);
+    	myColorActions[1] = new PanelBlueAction(myPanel);
+    	myColorActions[2] = new PanelYellowAction(myPanel);
+    	myColorActions[3] = new PanelWhiteAction(myPanel);
+    }
+    
+    private void setupStrokeActions() {
+        myStrokeActions = new Action[6];
+        myStrokeActions[0] = myPanel.new StrokeItemAction(new BasicStroke(1));
+        myStrokeActions[1] = myPanel.new StrokeItemAction(new BasicStroke(3));
+        myStrokeActions[2] = myPanel.new StrokeItemAction(new BasicStroke(5));
+        myStrokeActions[3] = new StrokeRedAction(myPanel);
+        myStrokeActions[4] = new StrokeGreenAction(myPanel);
+        myStrokeActions[5] = new StrokeBlueAction(myPanel);
+    }
+}
